@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizbaseBrowser", "QuizbaseBrowser.csproj", "{823E06D4-5E5B-4207-AD76-7580AAF589FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{823E06D4-5E5B-4207-AD76-7580AAF589FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{823E06D4-5E5B-4207-AD76-7580AAF589FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{823E06D4-5E5B-4207-AD76-7580AAF589FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{823E06D4-5E5B-4207-AD76-7580AAF589FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8394828B-478F-4EFC-866F-AFD8ADB0900D}
+	EndGlobalSection
+EndGlobal
