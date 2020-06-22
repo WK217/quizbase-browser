@@ -8,6 +8,12 @@ namespace QuizbaseBrowser.Models
 
         public DbSet<Quiz> Quizzes { get; set; }
 
+        public QuizzesContext()
+            : this("quizzes.db")
+        {
+
+        }
+
         public QuizzesContext(string filename)
         {
             _filename = filename;

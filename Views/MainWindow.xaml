@@ -14,6 +14,7 @@
 
     <Window.Resources>
         <v:AnswerIdToLetterConverter x:Key="answerIdToLetterConverter" />
+        <v:AnswerIdToSelectedIndexConverter x:Key="answerIdToSelectedIndexConverter" />
         <v:NoteToEmptyFlagConverter x:Key="noteToEmptyFlagConverter" />
 
         <SolidColorBrush x:Key="correctColor" Color="#b7e1cd" />
@@ -23,6 +24,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid Margin="0,0,0,10">
@@ -97,6 +99,7 @@
             HeadersVisibility="Column"
             IsReadOnly="True"
             ItemsSource="{Binding Quizzes}"
+            SelectedItem="{Binding EditQuizViewModel.Quiz}"
             VerticalScrollBarVisibility="Visible">
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#b5d8ff" />
@@ -163,7 +166,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Width="*"
-                    Binding="{Binding Id}"
+                    Binding="{Binding Id, UpdateSourceTrigger=PropertyChanged}"
                     Header="ID"
                     Visibility="Collapsed">
                     <DataGridTextColumn.ElementStyle>
@@ -175,24 +178,24 @@
 
                 <DataGridTextColumn
                     Width="4*"
-                    Binding="{Binding Theme}"
+                    Binding="{Binding Theme, UpdateSourceTrigger=PropertyChanged}"
                     ElementStyle="{StaticResource columnText}"
                     Header="Тема" />
 
                 <DataGridTextColumn
                     Width="12*"
-                    Binding="{Binding Question}"
+                    Binding="{Binding Question, UpdateSourceTrigger=PropertyChanged}"
                     ElementStyle="{StaticResource columnText}"
                     Header="Текст вопроса" />
 
                 <DataGridTextColumn
                     Width="6*"
-                    Binding="{Binding A}"
+                    Binding="{Binding A, UpdateSourceTrigger=PropertyChanged}"
                     Header="Вариант A">
                     <DataGridTextColumn.ElementStyle>
                         <Style BasedOn="{StaticResource columnText}" TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Correct}" Value="1">
+                                <DataTrigger Binding="{Binding Correct, UpdateSourceTrigger=PropertyChanged}" Value="1">
                                     <DataTrigger.Setters>
                                         <Setter Property="Background" Value="{StaticResource correctColor}" />
                                     </DataTrigger.Setters>
@@ -204,12 +207,12 @@
 
                 <DataGridTextColumn
                     Width="6*"
-                    Binding="{Binding B}"
+                    Binding="{Binding B, UpdateSourceTrigger=PropertyChanged}"
                     Header="Вариант B">
                     <DataGridTextColumn.ElementStyle>
                         <Style BasedOn="{StaticResource columnText}" TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Correct}" Value="2">
+                                <DataTrigger Binding="{Binding Correct, UpdateSourceTrigger=PropertyChanged}" Value="2">
                                     <DataTrigger.Setters>
                                         <Setter Property="Background" Value="{StaticResource correctColor}" />
                                     </DataTrigger.Setters>
@@ -221,12 +224,12 @@
 
                 <DataGridTextColumn
                     Width="6*"
-                    Binding="{Binding C}"
+                    Binding="{Binding C, UpdateSourceTrigger=PropertyChanged}"
                     Header="Вариант C">
                     <DataGridTextColumn.ElementStyle>
                         <Style BasedOn="{StaticResource columnText}" TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Correct}" Value="3">
+                                <DataTrigger Binding="{Binding Correct, UpdateSourceTrigger=PropertyChanged}" Value="3">
                                     <DataTrigger.Setters>
                                         <Setter Property="Background" Value="{StaticResource correctColor}" />
                                     </DataTrigger.Setters>
@@ -238,12 +241,12 @@
 
                 <DataGridTextColumn
                     Width="6*"
-                    Binding="{Binding D}"
+                    Binding="{Binding D, UpdateSourceTrigger=PropertyChanged}"
                     Header="Вариант D">
                     <DataGridTextColumn.ElementStyle>
                         <Style BasedOn="{StaticResource columnText}" TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Correct}" Value="4">
+                                <DataTrigger Binding="{Binding Correct, UpdateSourceTrigger=PropertyChanged}" Value="4">
                                     <DataTrigger.Setters>
                                         <Setter Property="Background" Value="{StaticResource correctColor}" />
                                     </DataTrigger.Setters>
@@ -253,7 +256,7 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <DataGridTextColumn Binding="{Binding Correct, Converter={StaticResource answerIdToLetterConverter}}" Header="Ответ">
+                <DataGridTextColumn Binding="{Binding Correct, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource answerIdToLetterConverter}}" Header="Ответ">
                     <DataGridTextColumn.ElementStyle>
                         <Style BasedOn="{StaticResource columnText}" TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -267,7 +270,7 @@
                     SortMemberPath="CheckIrc">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid DataContext="{Binding CheckIrc}" Style="{StaticResource checkGrid}">
+                            <Grid DataContext="{Binding CheckIrc, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource checkGrid}">
                                 <TextBlock Style="{StaticResource checkText}" />
                             </Grid>
                         </DataTemplate>
@@ -280,7 +283,7 @@
                     SortMemberPath="CheckHome">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid DataContext="{Binding CheckHome}" Style="{StaticResource checkGrid}">
+                            <Grid DataContext="{Binding CheckHome, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource checkGrid}">
                                 <TextBlock Style="{StaticResource checkText}" />
                             </Grid>
                         </DataTemplate>
@@ -293,7 +296,7 @@
                     SortMemberPath="CheckFriends">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid DataContext="{Binding CheckFriends}" Style="{StaticResource checkGrid}">
+                            <Grid DataContext="{Binding CheckFriends, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource checkGrid}">
                                 <TextBlock Style="{StaticResource checkText}" />
                             </Grid>
                         </DataTemplate>
@@ -301,5 +304,169 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+
+        <Grid Grid.Row="2" Margin="0,10,0,0">
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+
+                <Style x:Key="groupBoxHeader" TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+
+                <Style TargetType="TextBox">
+                    <Setter Property="BorderThickness" Value="0,0,0,1" />
+                </Style>
+            </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Margin="5,0" DataContext="{Binding NewQuizViewModel}">
+                <GroupBox.Header>
+                    <TextBlock Style="{StaticResource groupBoxHeader}">Добавление вопроса:</TextBlock>
+                </GroupBox.Header>
+
+                <Grid Margin="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock>Тема:</TextBlock>
+                    <TextBox Grid.Column="1" Text="{Binding Quiz.Theme, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="1">Вопрос:</TextBlock>
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="{Binding Quiz.Question, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="2">Вариант A:</TextBlock>
+                    <TextBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Text="{Binding Quiz.A, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="3">Вариант B:</TextBlock>
+                    <TextBox
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Text="{Binding Quiz.B, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="4">Вариант C:</TextBlock>
+                    <TextBox
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Text="{Binding Quiz.C, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="5">Вариант D:</TextBlock>
+                    <TextBox
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Text="{Binding Quiz.D, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="6">Верный ответ:</TextBlock>
+                    <ComboBox
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        SelectedIndex="{Binding Quiz.Correct, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource answerIdToSelectedIndexConverter}}">
+                        <ComboBoxItem Content="{Binding Quiz.A}" />
+                        <ComboBoxItem Content="{Binding Quiz.B}" />
+                        <ComboBoxItem Content="{Binding Quiz.C}" />
+                        <ComboBoxItem Content="{Binding Quiz.D}" />
+                    </ComboBox>
+
+                    <Button
+                        Grid.Row="7"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Center"
+                        Command="{Binding ApplyChangesCommand}">
+                        <TextBlock Margin="10,2">Добавить</TextBlock>
+                    </Button>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox
+                Grid.Column="1"
+                Margin="5,0"
+                DataContext="{Binding EditQuizViewModel}">
+                <GroupBox.Header>
+                    <TextBlock Style="{StaticResource groupBoxHeader}">Редактирование вопроса:</TextBlock>
+                </GroupBox.Header>
+
+                <Grid Margin="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock>Тема:</TextBlock>
+                    <TextBox Grid.Column="1" Text="{Binding Quiz.Theme, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="1">Вопрос:</TextBlock>
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="{Binding Quiz.Question, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="2">Верный ответ:</TextBlock>
+                    <ComboBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        SelectedIndex="{Binding Quiz.Correct, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource answerIdToSelectedIndexConverter}}">
+                        <ComboBoxItem Content="{Binding Quiz.A}" />
+                        <ComboBoxItem Content="{Binding Quiz.B}" />
+                        <ComboBoxItem Content="{Binding Quiz.C}" />
+                        <ComboBoxItem Content="{Binding Quiz.D}" />
+                    </ComboBox>
+
+                    <Grid Grid.Row="3" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Button
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            Command="{Binding ApplyChangesCommand}">
+                            <TextBlock Margin="10,2">Изменить</TextBlock>
+                        </Button>
+
+                        <Button
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            Command="{Binding RemoveCommand}">
+                            <TextBlock Margin="10,2">Удалить</TextBlock>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+        </Grid>
     </Grid>
 </Window>

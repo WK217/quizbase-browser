@@ -4,16 +4,16 @@ using System.Windows.Data;
 
 namespace QuizbaseBrowser.Views
 {
-    public class NoteToEmptyFlagConverter : IValueConverter
+    public class AnswerIdToSelectedIndexConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.IsNullOrEmpty(value?.ToString());
+            return Math.Min(Math.Max((int)value - 1, 0), 3);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Binding.DoNothing;
+            return Math.Min(Math.Max((int)value + 1, 1), 4);
         }
     }
 }

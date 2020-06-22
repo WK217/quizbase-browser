@@ -12,15 +12,12 @@ namespace QuizbaseBrowser.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         readonly Quizbase _quizbase;
-        readonly SourceCache<Quiz, int> _sourceCache;
         readonly ReadOnlyObservableCollection<Quiz> _quizzes;
 
         public MainWindowViewModel()
         {
             _quizbase = new Quizbase();
             _quizzes = new ReadOnlyObservableCollection<Quiz>(new ObservableCollection<Quiz>());
-
-            _sourceCache = new SourceCache<Quiz, int>(quiz => quiz.Id);
 
             var questionFilter = this.WhenAnyValue(viewModel => viewModel.FilterText)
                                      .Throttle(TimeSpan.FromMilliseconds(250))
@@ -35,7 +32,7 @@ namespace QuizbaseBrowser.ViewModels
                                          .Throttle(TimeSpan.FromMilliseconds(250))
                                          .Select(CheckFriendsFilter);
 
-            var cancellation = _sourceCache
+            var cancellation = _quizbase.List
               .Connect()
               .Filter(questionFilter).Filter(checkIrcFilter).Filter(checkHomeFilter).Filter(checkFriendsFilter)
               .Sort(SortExpressionComparer<Quiz>
@@ -45,8 +42,8 @@ namespace QuizbaseBrowser.ViewModels
               .DisposeMany()
               .Subscribe();
 
-            foreach (var quiz in _quizbase.List.AsObservableList().Items)
-                _sourceCache.AddOrUpdate(quiz);
+            NewQuizViewModel = new NewQuizViewModel(_quizbase);
+            EditQuizViewModel = new EditQuizViewModel(_quizbase);
         }
 
         Func<Quiz, bool> QuestionTextFilter(string filterText)
@@ -59,6 +56,8 @@ namespace QuizbaseBrowser.ViewModels
         Func<Quiz, bool> CheckFriendsFilter(byte check) => quiz => check == 0 || (check == 2 && quiz.CheckFriends) || (check == 1 && !quiz.CheckFriends);
 
         public ReadOnlyObservableCollection<Quiz> Quizzes => _quizzes;
+        public NewQuizViewModel NewQuizViewModel { get; }
+        public EditQuizViewModel EditQuizViewModel { get; }
 
         [Reactive]
         public string FilterText { get; set; }

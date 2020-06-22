@@ -17,7 +17,7 @@ namespace QuizbaseBrowser.Views
             if (value is null)
                 return _ids[0];
 
-            return _ids[(int)value - 1];
+            return _ids[Math.Max(Math.Min((int)value - 1, 0), 3)];
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
