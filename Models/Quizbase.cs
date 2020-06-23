@@ -1,7 +1,7 @@
 ﻿using DynamicData;
 using System.Linq;
 
-namespace QuizbaseBrowser.Models
+namespace QuizbaseBrowser.Model
 {
     public class Quizbase
     {

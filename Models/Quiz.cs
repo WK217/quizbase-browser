@@ -1,12 +1,13 @@
 ﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace QuizbaseBrowser.Models
+namespace QuizbaseBrowser.Model
 {
     [Table("abcd")]
-    public class Quiz : ReactiveObject
+    public class Quiz : ReactiveObject, IDataErrorInfo
     {
         /// <summary>
         /// Числовой идентификатор вопроса.
@@ -55,7 +56,7 @@ namespace QuizbaseBrowser.Models
         /// Номер правильного ответа
         /// </summary>
         [Reactive]
-        public int Correct { get; set; }
+        public Answer Correct { get; set; }
 
         /// <summary>
         /// Комментарий к вопросу
@@ -68,14 +69,14 @@ namespace QuizbaseBrowser.Models
         /// </summary>
         [Column("level_wwtbam")]
         [Reactive]
-        public int LevelWwtbam { get; set; }
+        public int LevelWwtbam { get; set; } = 1;
 
         /// <summary>
         /// Уровень сложности вопроса по шкале 1-3 («Дуэль»)
         /// </summary>
         [Column("level_duel")]
         [Reactive]
-        public float LevelDuel { get; set; }
+        public float LevelDuel { get; set; } = 1;
 
         /// <summary>
         /// Ссылка
@@ -124,6 +125,30 @@ namespace QuizbaseBrowser.Models
         /// </summary>
         [Reactive]
         public string Note { get; set; }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = string.Empty;
+
+                switch (columnName)
+                {
+                    case nameof(LevelWwtbam):
+                        if ((LevelWwtbam < 1) || (LevelWwtbam > 15))
+                            error = "Уровень должен быть в пределах от 1 до 15";
+                        break;
+
+                    case nameof(LevelDuel):
+                        if ((LevelDuel < 1) || (LevelDuel > 3))
+                            error = "Уровень должен быть в пределах от 1 до 3";
+                        break;
+                }
+
+                return error;
+            }
+        }
+        public string Error => string.Empty;
 
         public void CopyFrom(Quiz quiz)
         {

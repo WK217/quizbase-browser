@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace QuizbaseBrowser.ViewModels
+namespace QuizbaseBrowser.ViewModel
 {
     public abstract class ViewModelBase : ReactiveObject
     {

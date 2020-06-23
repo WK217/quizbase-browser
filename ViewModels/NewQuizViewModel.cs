@@ -1,8 +1,8 @@
-﻿using QuizbaseBrowser.Models;
+﻿using QuizbaseBrowser.Model;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace QuizbaseBrowser.ViewModels
+namespace QuizbaseBrowser.ViewModel
 {
     public class NewQuizViewModel : ViewModelBase
     {

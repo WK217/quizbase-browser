@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace QuizbaseBrowser.Models
+namespace QuizbaseBrowser.Model
 {
     public class QuizzesContext : DbContext
     {

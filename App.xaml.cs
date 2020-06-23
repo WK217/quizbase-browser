@@ -1,5 +1,5 @@
-﻿using QuizbaseBrowser.ViewModels;
-using QuizbaseBrowser.Views;
+﻿using QuizbaseBrowser.ViewModel;
+using QuizbaseBrowser.View;
 using System.Windows;
 
 namespace QuizbaseBrowser

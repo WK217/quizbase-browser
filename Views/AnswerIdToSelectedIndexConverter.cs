@@ -1,8 +1,9 @@
-﻿using System;
+﻿using QuizbaseBrowser.Model;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace QuizbaseBrowser.Views
+namespace QuizbaseBrowser.View
 {
     public class AnswerIdToSelectedIndexConverter : IValueConverter
     {
@@ -13,7 +14,7 @@ namespace QuizbaseBrowser.Views
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Math.Min(Math.Max((int)value + 1, 1), 4);
+            return (Answer)Math.Min(Math.Max((int)value + 1, 1), 4);
         }
     }
 }

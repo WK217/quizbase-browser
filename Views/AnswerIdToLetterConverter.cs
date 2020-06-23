@@ -3,7 +3,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace QuizbaseBrowser.Views
+namespace QuizbaseBrowser.View
 {
     /// <summary>
     /// Конвертирование цифрового идентификатора варианта ответа в буквенное обозначение.

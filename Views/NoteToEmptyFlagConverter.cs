@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace QuizbaseBrowser.Views
+namespace QuizbaseBrowser.View
 {
     public class NoteToEmptyFlagConverter : IValueConverter
     {

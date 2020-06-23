@@ -1,13 +1,13 @@
 ﻿using DynamicData;
 using DynamicData.Binding;
-using QuizbaseBrowser.Models;
+using QuizbaseBrowser.Model;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 
-namespace QuizbaseBrowser.ViewModels
+namespace QuizbaseBrowser.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
