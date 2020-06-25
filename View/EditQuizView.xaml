@@ -1,53 +1,45 @@
-﻿<Window
-    x:Class="QuizbaseBrowser.View.EditQuizWindow"
+﻿<rxui:ReactiveUserControl
+    x:Class="QuizbaseBrowser.View.EditQuizView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:m="clr-namespace:QuizbaseBrowser.Model"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:rxui="http://reactiveui.net"
     xmlns:v="clr-namespace:QuizbaseBrowser.View"
     xmlns:vm="clr-namespace:QuizbaseBrowser.ViewModel"
-    Title="Добавление вопроса"
-    Width="800"
-    ResizeMode="NoResize"
-    SizeToContent="Height"
+    d:DataContext="{d:DesignInstance vm:EditQuizViewModel}"
+    d:DesignWidth="800"
+    x:TypeArguments="vm:EditQuizViewModel"
     mc:Ignorable="d">
 
-    <Window.Resources>
-        <v:AnswerIdToLetterConverter x:Key="ansIdToLetterConv" />
-        <v:AnswerIdToSelectedIndexConverter x:Key="ansIdToSelIndexConv" />
-        <v:NoteToEmptyFlagConverter x:Key="noteToEmptyFlagConv" />
-        <v:EnumBooleanConverter x:Key="enumBoolConv" />
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ResourceDictionaries/ResourceDictionary.xaml" />
+                <ResourceDictionary Source="ResourceDictionaries/ConvertersDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-        <SolidColorBrush x:Key="correctColor" Color="#b7e1cd" />
-    </Window.Resources>
-
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
             <RowDefinition />
             <RowDefinition Height="10" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <ContentControl Content="{Binding Quiz}">
+        <TextBlock Style="{StaticResource pageHeader}">Редактирование вопроса</TextBlock>
+
+        <ContentControl Grid.Row="2" Content="{Binding Quiz}">
             <ContentControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type m:Quiz}">
                     <Grid>
                         <Grid.Resources>
                             <Style x:Key="cell" TargetType="FrameworkElement">
                                 <Setter Property="VerticalAlignment" Value="Center" />
-                            </Style>
-
-                            <Style x:Key="header" TargetType="FrameworkElement">
-                                <Setter Property="Margin" Value="5,0,0,2" />
-                            </Style>
-
-                            <Style
-                                x:Key="label"
-                                BasedOn="{StaticResource header}"
-                                TargetType="TextBlock">
-                                <Setter Property="FontWeight" Value="Bold" />
-                                <Setter Property="HorizontalAlignment" Value="Left" />
                             </Style>
 
                             <Style TargetType="TextBox">
@@ -94,7 +86,19 @@
                         <!--  Примечание  -->
                         <StackPanel Grid.Column="2" Style="{StaticResource cell}">
                             <TextBlock Style="{StaticResource label}">Примечание:</TextBlock>
-                            <TextBox Text="{Binding Note, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Text="{Binding Note, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="BorderThickness" Value="0,0,0,1" />
+
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Note, Converter={StaticResource noteToEmptyFlagConv}}" Value="False">
+                                                <Setter Property="Background" Value="LightGoldenrodYellow" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </StackPanel>
 
                         <!--  Текст вопроса  -->
@@ -339,17 +343,29 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel>
-                                    <TextBlock Style="{StaticResource label}">URL: разное</TextBlock>
+                                    <TextBlock Style="{StaticResource label}">
+                                        <Hyperlink NavigateUri="{Binding UrlMisc}" RequestNavigate="UrlTextClick">
+                                            URL: разное
+                                        </Hyperlink>
+                                    </TextBlock>
                                     <TextBox Text="{Binding UrlMisc, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="2">
-                                    <TextBlock Style="{StaticResource label}">URL: фото</TextBlock>
+                                    <TextBlock Style="{StaticResource label}">
+                                        <Hyperlink NavigateUri="{Binding UrlPhoto}" RequestNavigate="UrlTextClick">
+                                            URL: фото
+                                        </Hyperlink>
+                                    </TextBlock>
                                     <TextBox Text="{Binding UrlPhoto, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="4">
-                                    <TextBlock Style="{StaticResource label}">URL: видео</TextBlock>
+                                    <TextBlock Style="{StaticResource label}">
+                                        <Hyperlink NavigateUri="{Binding UrlPhoto}" RequestNavigate="UrlTextClick">
+                                            URL: видео
+                                        </Hyperlink>
+                                    </TextBlock>
                                     <TextBox Text="{Binding UrlVideo, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
                             </Grid>
@@ -440,44 +456,22 @@
             </ContentControl.ContentTemplate>
         </ContentControl>
 
-        <!--  Функциональные кнопки: добавление, изменение, удаление вопроса  -->
-        <ContentControl Grid.Row="2" Content="{Binding .}">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type vm:NewQuizViewModel}">
-                    <Button
-                        Grid.Row="7"
-                        Grid.ColumnSpan="3"
-                        HorizontalAlignment="Center"
-                        Command="{Binding ApplyChangesCommand}">
-                        <TextBlock Margin="10,2">Добавить вопрос в базу</TextBlock>
-                    </Button>
-                </DataTemplate>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
 
-                <DataTemplate DataType="{x:Type vm:EditQuizViewModel}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Command="{Binding ApplyChangesCommand}">
+                Записать изменения в базу
+            </Button>
 
-                        <Button
-                            Grid.Column="1"
-                            HorizontalAlignment="Center"
-                            Command="{Binding ApplyChangesCommand}">
-                            <TextBlock Margin="10,2">Применить изменения</TextBlock>
-                        </Button>
-
-                        <Button
-                            Grid.Column="2"
-                            HorizontalAlignment="Center"
-                            Command="{Binding RemoveCommand}">
-                            <TextBlock Margin="10,2">Удалить вопрос из базы</TextBlock>
-                        </Button>
-                    </Grid>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
+            <Button Grid.Column="3" Command="{Binding RemoveCommand}">
+                Удалить вопрос из базы
+            </Button>
+        </Grid>
     </Grid>
-</Window>
+</rxui:ReactiveUserControl>

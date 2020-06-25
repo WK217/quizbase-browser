@@ -13,8 +13,8 @@ namespace QuizbaseBrowser
         {
             base.OnStartup(e);
 
-            var mainViewModel = new MainWindowViewModel();
-            var mainView = new MainWindow() { DataContext = mainViewModel };
+            MainViewModel mainViewModel = new MainViewModel();
+            MainView mainView = new MainView() { ViewModel = mainViewModel };
 
             mainView.Show();
         }

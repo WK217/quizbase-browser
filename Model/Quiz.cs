@@ -69,14 +69,14 @@ namespace QuizbaseBrowser.Model
         /// </summary>
         [Column("level_wwtbam")]
         [Reactive]
-        public int LevelWwtbam { get; set; } = 1;
+        public int LevelWwtbam { get; set; }
 
         /// <summary>
         /// Уровень сложности вопроса по шкале 1-3 («Дуэль»)
         /// </summary>
         [Column("level_duel")]
         [Reactive]
-        public float LevelDuel { get; set; } = 1;
+        public float LevelDuel { get; set; }
 
         /// <summary>
         /// Ссылка

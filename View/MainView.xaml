@@ -1,0 +1,62 @@
+﻿<rxui:ReactiveWindow
+    x:Class="QuizbaseBrowser.View.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:rxui="http://reactiveui.net"
+    xmlns:v="clr-namespace:QuizbaseBrowser.View"
+    xmlns:vm="clr-namespace:QuizbaseBrowser.ViewModel"
+    Title="Quizbase Browser"
+    Width="850"
+    Height="600"
+    d:DataContext="{d:DesignInstance vm:MainViewModel}"
+    x:TypeArguments="vm:MainViewModel"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ResourceDictionaries/ResourceDictionary.xaml" />
+                <ResourceDictionary Source="ResourceDictionaries/ConvertersDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <rxui:RoutedViewHost
+            x:Name="RoutedViewHost"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch" />
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="15" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="15" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Name="goDatabaseButton" Grid.Column="1">
+                Обзор базы вопросов
+            </Button>
+
+            <Button Name="goNewQuizButton" Grid.Column="3">
+                Добавить вопрос
+            </Button>
+
+            <Button Name="goEditQuizButton" Grid.Column="5">
+                Изменить вопрос
+            </Button>
+        </Grid>
+    </Grid>
+</rxui:ReactiveWindow>

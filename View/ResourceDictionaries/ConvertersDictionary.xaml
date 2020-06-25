@@ -1,0 +1,9 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:v="clr-namespace:QuizbaseBrowser.View">
+    <v:AnswerIdToLetterConverter x:Key="ansIdToLetterConv" />
+    <v:AnswerIdToSelectedIndexConverter x:Key="ansIdToSelIndexConv" />
+    <v:NoteToEmptyFlagConverter x:Key="noteToEmptyFlagConv" />
+    <v:EnumBooleanConverter x:Key="enumBoolConv" />
+</ResourceDictionary>
