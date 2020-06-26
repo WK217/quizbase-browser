@@ -19,12 +19,12 @@ namespace QuizbaseBrowser.ViewModel
             NewQuizViewModel = new NewQuizViewModel(_quizbase, this);
             EditQuizViewModel = new EditQuizViewModel(_quizbase, this);
 
-            DatabaseViewModel.WhenAnyValue(db => db.SelectedQuiz).BindTo(EditQuizViewModel, edit => edit.Quiz);
+            DatabaseViewModel.WhenAnyValue(vm => vm.SelectedQuiz).BindTo(EditQuizViewModel, edit => edit.Quiz);
 
             var canRemove = this
                 .WhenAnyObservable(vm => vm.Router.CurrentViewModel)
                 .Select(current => current is DatabaseViewModel);
-            RemoveCommand = ReactiveCommand.Create(() => Remove(), canRemove);
+            RemoveCommand = ReactiveCommand.Create(() => _quizbase.Remove(DatabaseViewModel.SelectedQuiz), canRemove);
 
             #region Routing
             Router = new RoutingState();
@@ -43,11 +43,6 @@ namespace QuizbaseBrowser.ViewModel
 
             Router.Navigate.Execute(DatabaseViewModel);
             #endregion
-        }
-
-        void Remove()
-        {
-            _quizbase.Remove(DatabaseViewModel.SelectedQuiz);
         }
 
         public IReactiveCommand RemoveCommand { get; }

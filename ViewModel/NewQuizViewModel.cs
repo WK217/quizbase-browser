@@ -1,38 +1,24 @@
 ﻿using QuizbaseBrowser.Model;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-using Splat;
 
 namespace QuizbaseBrowser.ViewModel
 {
-    public class NewQuizViewModel : ViewModelBase, IRoutableViewModel
+    public class NewQuizViewModel : QuizViewModel, IRoutableViewModel
     {
-        readonly Quizbase _quizbase;
+        public override string Header => "Добавление вопроса";
 
         public NewQuizViewModel(Quizbase quizbase, IScreen screen = null)
+            : base(quizbase, screen)
         {
-            _quizbase = quizbase;
-            Quiz = new Quiz();
-
-            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
-
-            ApplyChangesCommand = ReactiveCommand.Create(() => ApplyChanges());
-        }
-
-        [Reactive]
-        public Quiz Quiz { get; private set; }
-
-        public IReactiveCommand ApplyChangesCommand { get; }
-
-        public void ApplyChanges()
-        {
-            _quizbase.AddOrUpdate(Quiz);
             Quiz = new Quiz();
         }
 
-        #region Routing
-        public string UrlPathSegment => "newQuiz";
-        public IScreen HostScreen { get; }
-        #endregion
+        public override void ApplyChanges()
+        {
+            base.ApplyChanges();
+            Quiz = new Quiz();
+        }
+
+        public override string UrlPathSegment => "newQuiz";
     }
 }

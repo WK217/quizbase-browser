@@ -73,7 +73,7 @@ namespace QuizbaseBrowser.ViewModel
         Func<Quiz, bool> QuestionTextFilter(string filterText) =>
             quiz => string.IsNullOrWhiteSpace(filterText) || quiz.Question.ToLowerInvariant().Contains(FilterQuestionText.ToLowerInvariant());
         Func<Quiz, bool> ThemeTextFilter(string filterText) =>
-            quiz => string.IsNullOrWhiteSpace(filterText) || quiz.Theme.ToLowerInvariant().Contains(FilterQuestionText.ToLowerInvariant());
+            quiz => string.IsNullOrWhiteSpace(filterText) || quiz.Theme.ToLowerInvariant().Contains(FilterThemeText.ToLowerInvariant());
 
         Func<Quiz, bool> CheckIrcFilter(byte check) =>
             quiz => check == 0 || (check == 2 && quiz.CheckIrc) || (check == 1 && !quiz.CheckIrc);
