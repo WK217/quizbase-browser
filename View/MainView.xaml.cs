@@ -1,7 +1,6 @@
 ﻿using QuizbaseBrowser.ViewModel;
 using ReactiveUI;
 using System.Reactive.Disposables;
-using System.Windows.Input;
 
 namespace QuizbaseBrowser.View
 {

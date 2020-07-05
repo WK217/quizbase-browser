@@ -6,7 +6,11 @@ using ReactiveUI.Fody.Helpers;
 using Splat;
 using System;
 using System.Collections.ObjectModel;
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Text;
+using System.Windows;
+using System.Xml.Linq;
 
 namespace QuizbaseBrowser.ViewModel
 {
@@ -48,9 +52,26 @@ namespace QuizbaseBrowser.ViewModel
               .Bind(out _quizzes)
               .DisposeMany()
               .Subscribe();
+
+            ExportCommand = ReactiveCommand.Create<Quiz>(q => Export(q));
+        }
+
+        void Export(Quiz quiz)
+        {
+            StringBuilder xml = new StringBuilder($"<quiz theme=\"{quiz.Theme}\" level=\"{quiz.LevelWwtbam}\"><question><text>{quiz.Question}</text></question><answers>");
+            xml.Append(quiz.Correct == Answer.A ? $"<a correct=\"true\">{quiz.A}</a>" : $"<a>{quiz.A}</a>");
+            xml.Append(quiz.Correct == Answer.B ? $"<b correct=\"true\">{quiz.B}</b>" : $"<b>{quiz.B}</b>");
+            xml.Append(quiz.Correct == Answer.C ? $"<c correct=\"true\">{quiz.C}</c>" : $"<c>{quiz.C}</c>");
+            xml.Append(quiz.Correct == Answer.D ? $"<d correct=\"true\">{quiz.D}</d>" : $"<d>{quiz.D}</d>");
+            xml.Append($"</answers><comment><text>{quiz.Comment}</text></comment></quiz>");
+
+            XDocument doc = XDocument.Parse(xml.ToString());
+            Clipboard.SetText(doc.ToString());
         }
 
         public ReadOnlyObservableCollection<Quiz> Quizzes => _quizzes;
+
+        public ReactiveCommand<Quiz, Unit> ExportCommand { get; }
 
         [Reactive]
         public Quiz SelectedQuiz { get; set; }

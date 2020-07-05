@@ -6,4 +6,5 @@
     <v:AnswerIdToSelectedIndexConverter x:Key="ansIdToSelIndexConv" />
     <v:NoteToEmptyFlagConverter x:Key="noteToEmptyFlagConv" />
     <v:EnumBooleanConverter x:Key="enumBoolConv" />
+    <v:LevelWwtbamToBackgroundConverter x:Key="lvlToBgConv" />
 </ResourceDictionary>

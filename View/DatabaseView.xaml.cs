@@ -1,5 +1,6 @@
 ﻿using QuizbaseBrowser.ViewModel;
 using ReactiveUI;
+using System.Reactive.Disposables;
 
 namespace QuizbaseBrowser.View
 {
@@ -11,6 +12,15 @@ namespace QuizbaseBrowser.View
         public DatabaseView()
         {
             InitializeComponent();
+
+            this.WhenActivated(disposableRegistration =>
+            {
+                this.BindCommand(ViewModel,
+                                 vm => vm.ExportCommand,
+                                 v => v.menuExportWwtbamXml,
+                                 vm => vm.SelectedQuiz)
+                    .DisposeWith(disposableRegistration);
+            });
         }
     }
 }
